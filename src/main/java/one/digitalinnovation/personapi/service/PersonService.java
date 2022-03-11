@@ -11,7 +11,6 @@ import one.digitalinnovation.personapi.entity.Person;
 import one.digitalinnovation.personapi.repository.PersonRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,7 +47,27 @@ public class PersonService {
         return personMapper.toDTO(person);
     }
 
+    public void delete(Long id) throws PersonNotFoundException {
+        verifyIfExists(id);
+        personRepository.deleteById(id);
+    }
+
+    public MessageResponseDTO update(Long id, PersonDTO personDTO) throws PersonNotFoundException {
+        verifyIfExists(id);
+        Person personToUpdate = personMapper.toModel(personDTO);
+        Person updatedPerson = personRepository.save(personToUpdate);
+
+        return createMessageResponse("Updated person with Id ", updatedPerson.getId());
+    }
+
     private static Person verifyIfExists(Long id) throws PersonNotFoundException {
         return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+    }
+
+    private MessageResponseDTO createMessageResponse(String message, Long id) {
+        return MessageResponseDTO
+                .builder()
+                .message(message + id)
+                .build();
     }
 }
