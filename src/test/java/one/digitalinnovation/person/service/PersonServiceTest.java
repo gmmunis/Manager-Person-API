@@ -14,9 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static one.digitalinnovation.person.utils.PersonUtils.createFakeDTO;
 import static one.digitalinnovation.person.utils.PersonUtils.createFakeEntity;
-import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {

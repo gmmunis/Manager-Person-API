@@ -18,17 +18,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
 
-    private static PersonRepository personRepository;
-    private static final PersonMapper personMapper = PersonMapper.INSTANCE;
+    private PersonRepository personRepository;
+    private final PersonMapper personMapper;
 
     public MessageResponseDTO createPerson(PersonDTO personDTO) {
         Person personToSave = personMapper.toModel(personDTO);
         Person savedPerson = personRepository.save(personToSave);
 
-        return MessageResponseDTO
-                .builder()
-                .message("Created person with ID " + savedPerson.getId())
-                .build();
+        return createMessageResponse("Created person with ID ", savedPerson.getId());
     }
 
     public List<PersonDTO> listAll() {
@@ -38,7 +35,7 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
-    public static PersonDTO findById(Long id) throws PersonNotFoundException {
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
         Person person = verifyIfExists(id);
 
         return personMapper.toDTO(person);
@@ -57,7 +54,7 @@ public class PersonService {
         return createMessageResponse("Updated person with Id ", updatedPerson.getId());
     }
 
-    private static Person verifyIfExists(Long id) throws PersonNotFoundException {
+    private Person verifyIfExists(Long id) throws PersonNotFoundException {
         return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
     }
 

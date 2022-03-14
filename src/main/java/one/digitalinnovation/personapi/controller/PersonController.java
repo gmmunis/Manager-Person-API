@@ -28,8 +28,8 @@ public class PersonController {
     private PersonService personService;
 
     @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public MessageResponseDTO createPerson(@RequestBody @Valid PersonDTO personDTO) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageResponseDTO createPerson(@Valid @RequestBody PersonDTO personDTO) {
         return personService.createPerson(personDTO);
     }
 
@@ -39,8 +39,9 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
-        return PersonService.findById(id);
+        return personService.findById(id);
     }
 
     @PutMapping("{id}")
