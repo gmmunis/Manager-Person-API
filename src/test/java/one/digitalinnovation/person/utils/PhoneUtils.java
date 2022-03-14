@@ -1,4 +1,4 @@
-package one.digitalinnovation.personapi.service.utils;
+package one.digitalinnovation.person.utils;
 
 import one.digitalinnovation.personapi.dto.request.PhoneDTO;
 import one.digitalinnovation.personapi.entity.Phone;
